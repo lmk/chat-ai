@@ -20,17 +20,18 @@ func main() {
 
 	inputMsg := "어떻게 지내?"
 
-	reqUrl := NewReqUrl("https://openapi.naver.com/v1/papago/n2mt").
+	reqUrl := NewReqUrl("").
 		SetParam("source", "ko").
 		SetParam("target", "en").
 		SetParam("text", inputMsg)
 
 	client := resty.New()
 	resp, err := client.R().
-		ForceContentType("application/x-www-form-urlencoded; charset=UTF-8").
+		SetHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8").
 		SetHeader("X-Naver-Client-Id", conf.NaverClientId).
 		SetHeader("X-Naver-Client-Secret", conf.NaverClientSecret).
-		Get(reqUrl.Get())
+		SetBody(reqUrl.Get()).
+		Post("https://openapi.naver.com/v1/papago/n2mt")
 
 	if err != nil {
 		Error.Fatalf("Get Fail :%s", err)

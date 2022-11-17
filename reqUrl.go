@@ -16,16 +16,17 @@ func NewReqUrl(base string) *ReqUrl {
 }
 
 func (req *ReqUrl) Get() string {
-	url := req.base
 
-	params := make([]string, len(req.param))
+	var params []string
 	for k, v := range req.param {
 		params = append(params, k+"="+v)
 	}
 
-	url += strings.Join(params, "&")
+	if len(req.base) > 0 {
+		return req.base + "?" + strings.Join(params, "&")
+	}
 
-	return url
+	return strings.Join(params, "&")
 }
 
 func (req *ReqUrl) SetParam(key string, value string) *ReqUrl {
