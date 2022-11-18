@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/go-resty/resty/v2"
+	"test-api/translater"
 )
 
 var conf AppConfig
@@ -18,24 +17,14 @@ func main() {
 		Error.Fatalln(err)
 	}
 
-	inputMsg := "어떻게 지내?"
+	translater.NaverClientId = conf.NaverClientId
+	translater.NaverClientSecret = conf.NaverClientSecret
 
-	reqUrl := NewReqUrl("").
-		SetParam("source", "ko").
-		SetParam("target", "en").
-		SetParam("text", inputMsg)
-
-	client := resty.New()
-	resp, err := client.R().
-		SetHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8").
-		SetHeader("X-Naver-Client-Id", conf.NaverClientId).
-		SetHeader("X-Naver-Client-Secret", conf.NaverClientSecret).
-		SetBody(reqUrl.Get()).
-		Post("https://openapi.naver.com/v1/papago/n2mt")
-
+	result, err := translater.Ko2En("안녕하세요")
 	if err != nil {
-		Error.Fatalf("Get Fail :%s", err)
+		Error.Fatalln(err)
 	}
 
-	fmt.Println(resp)
+	Info.Println(result)
+
 }
