@@ -11,8 +11,17 @@ import (
 type AppConfig struct {
 	NaverClientId     string `yaml:"naverClientId"`
 	NaverClientSecret string `yaml:"naverClientSecret"`
-	SrcLangType       string `yaml:"srcLangType"`
-	TarLangType       string `yaml:"tarLangType"`
+	OpenAI            openAI `yaml:"openai"`
+}
+
+type openAI struct {
+	ApiKey      string  `yaml:"apiKey"`
+	Model       string  `yaml:"model"`
+	MaxTokens   int     `yaml:"max_tokens"`
+	Temperature float32 `yaml:"temperature"`
+	Stream      bool    `yaml:"stream"`
+	Logprobs    string  `yaml:"logprobs"`
+	Stop        string  `yaml:"stop"`
 }
 
 func (conf *AppConfig) readConfig(fileName string) error {
@@ -32,7 +41,7 @@ func (conf *AppConfig) readConfig(fileName string) error {
 	return nil
 }
 
-func makePretty(conf *AppConfig) string {
+func (conf *AppConfig) makePretty() string {
 
 	buf, err := json.MarshalIndent(conf, "", "  ")
 	if err != nil {

@@ -2,6 +2,7 @@ package translater
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -33,6 +34,10 @@ func post(msg string, src string, dst string) (string, error) {
 	err = json.Unmarshal(respJson.Body(), &result)
 	if err != nil {
 		return "", err
+	}
+
+	if result.Message.MsgType == "" {
+		return "", errors.New(string(respJson.Body()))
 	}
 
 	return result.Message.Result.TranslatedText, nil
