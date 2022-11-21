@@ -12,35 +12,37 @@ func StartWeb() {
 	r := gin.Default()
 	r.POST("/api/v1/chat", func(c *gin.Context) {
 
-		text := c.PostForm("text")
+		reqKrMsg := c.PostForm("text")
 
-		text, err := translater.Ko2En(text)
+		reqEnMsg, err := translater.Ko2En(reqKrMsg)
 		if err != nil {
 			c.JSON(500, gin.H{
-				"text": "fail translat '" + text + "'",
+				"text": "fail translat '" + reqEnMsg + "'",
 			})
 			return
 		}
 
-		resEn, err := openai.Chat(text)
+		resEnMsg, err := openai.Chat(reqEnMsg)
 		if err != nil {
 			c.JSON(500, gin.H{
-				"text": "fail chat '" + text + "'",
+				"text": "fail chat '" + reqEnMsg + "'",
 			})
 			return
 		}
 
-		resKr, err := translater.En2Ko(resEn)
+		resKrMsg, err := translater.En2Ko(resEnMsg)
 		if err != nil {
 			c.JSON(500, gin.H{
-				"text": "fail translat '" + resEn + "'",
+				"text": "fail translat '" + resEnMsg + "'",
 			})
 			return
 		}
 
 		c.JSON(200, gin.H{
-			"message-en": resEn,
-			"message-kr": resKr,
+			"req-message-en": reqEnMsg,
+			"req-message-kr": reqKrMsg,
+			"res-message-en": resEnMsg,
+			"res-message-kr": resKrMsg,
 		})
 	})
 	r.Use(static.Serve("/", static.LocalFile("public", true)))

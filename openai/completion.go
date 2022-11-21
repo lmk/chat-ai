@@ -34,6 +34,8 @@ func Chat(msg string) (string, error) {
 
 	var result ResponBody
 
+	//	fmt.Println(string(respJson.Body()))
+
 	err = json.Unmarshal(respJson.Body(), &result)
 	if err != nil {
 		return "", err
