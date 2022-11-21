@@ -7,6 +7,8 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
+var URI = "https://openapi.naver.com/v1/papago/n2mt"
+
 var NaverClientId string
 var NaverClientSecret string
 
@@ -23,7 +25,7 @@ func post(msg string, src string, dst string) (string, error) {
 		SetHeader("X-Naver-Client-Id", NaverClientId).
 		SetHeader("X-Naver-Client-Secret", NaverClientSecret).
 		SetBody(reqUrl.Get()).
-		Post("https://openapi.naver.com/v1/papago/n2mt")
+		Post(URI)
 
 	if err != nil {
 		return "", err

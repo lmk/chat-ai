@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>Chatting AI</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+
+<body>
+  <div class="chat-top">
+    <div class="chat-title">Chat AI</div>
+  </div>
+  
+  <div class="chat-body">
+    <ul id="chat-box">
+    </ul>
+  </div>
+
+  <div class="chat-bottom">
+    <form id="main-form" onsubmit="return false;">
+        <input id="input-msg" class="input-msg" type="text" placeholder="Write something">
+        <button class="btn fa fa-paper-plane" type="submit"></button>
+    </form>
+  </div>
+ 
+  <script>
+
+    var chatMe = 'chat-box me';
+    var chatAi = 'chat-box ai';
+    var chatAlert = 'chat-box alert';
+
+    function addChat(cls, msg, appendix) {
+      var li = document.createElement('li');
+      li.setAttribute('class',cls);
+
+      var textNode = document.createTextNode(msg);
+      li.appendChild(textNode);
+
+      if (appendix != "" ) {
+        var div = document.createElement('div');
+        var textAppendixNode = document.createTextNode(appendix);
+        div.setAttribute('class', 'chat-appendix')
+        div.appendChild(textAppendixNode);
+        li.appendChild(div);
+      }
+
+      document.getElementById('chat-box').appendChild(li);
+
+      // to bottom
+      document.documentElement.scrollTop = getDocumentHeight();
+    }
+
+    function addChatMe(msg) {
+      addChat(chatMe, msg, '')
+      document.getElementById('input-msg').value = "";
+    }
+
+    function addChatAi(kr, en) {
+      addChat(chatAi, kr, en)
+    }
+
+    addChatAi('안녕', 'hello')
+
+    function getDocumentHeight() {
+      var html = document.documentElement;
+      return Math.max( html.clientHeight, html.scrollHeight, html.offsetHeight );
+    }
+
+    function requestMsg(msg) {
+      $.post( "/api/v1/chat", { text: msg })
+        .done(function( data ) {
+//          console.log( "Data Loaded: ", data );
+          addChatAi(data['message-kr'], data['message-en'])
+        })
+        .fail(function( xhr, status, error ){
+          addChat(chatAlert, xhr.responseJSON.text)
+//          console.log( "Error: ", xhr, status, error );
+        });
+    }
+
+    (function () {
+      'use strict'
+
+      window.addEventListener('load', function () {
+
+        var form = document.getElementById('main-form')
+
+          form.addEventListener('submit', function (event) {
+
+            var msg = document.getElementById('input-msg').value;
+
+            if (msg.trim() == '') {
+              return;
+            }
+
+            addChatMe(msg);
+
+            requestMsg(msg);
+
+            document.getElementById('input-msg').value = "";
+
+          })
+      })
+
+    }())
+  </script>
+
+</body>
+
+</html>

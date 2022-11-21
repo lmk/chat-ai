@@ -7,6 +7,8 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
+var URI = "https://api.openai.com/v1/completions"
+
 var ApiKey string
 var Param RequestBody
 
@@ -24,7 +26,7 @@ func Chat(msg string) (string, error) {
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Authorization", "Bearer "+ApiKey).
 		SetBody(string(buf)).
-		Post("https://api.openai.com/v1/completions")
+		Post(URI)
 
 	if err != nil {
 		return "", err
@@ -42,5 +44,6 @@ func Chat(msg string) (string, error) {
 	}
 
 	text := strings.Trim(result.Choices[0].Text, "\n")
+	text = strings.ReplaceAll(text, "\n", " ")
 	return text, nil
 }

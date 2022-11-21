@@ -63,6 +63,10 @@ func main() {
 
 	InitLogger(os.Stdout, os.Stdout, os.Stdout, os.Stderr)
 
+	Info.Println("Start App")
+
 	InitConfig()
+
+	StartWeb()
 
 }
