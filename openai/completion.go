@@ -2,6 +2,7 @@ package openai
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/go-resty/resty/v2"
@@ -15,6 +16,8 @@ var Param RequestBody
 func Chat(msg string) (string, error) {
 
 	Param.Prompt = msg
+	Param.Temperature = 0.9
+	Param.MaxToken = 1024
 
 	buf, err := json.Marshal(Param)
 	if err != nil {
@@ -34,7 +37,7 @@ func Chat(msg string) (string, error) {
 
 	var result ResponBody
 
-	//	fmt.Println(string(respJson.Body()))
+	fmt.Println(string(respJson.Body()))
 
 	err = json.Unmarshal(respJson.Body(), &result)
 	if err != nil {
