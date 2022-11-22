@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"test-api/openai"
 	"test-api/translater"
 
@@ -47,5 +48,5 @@ func StartWeb() {
 	})
 	r.Use(static.Serve("/", static.LocalFile("public", true)))
 
-	r.Run(":8888")
+	r.Run(fmt.Sprintf(":%d", conf.ListenPort))
 }
