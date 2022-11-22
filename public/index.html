@@ -21,7 +21,7 @@
 
   <div class="chat-bottom">
     <form id="main-form" onsubmit="return false;">
-        <input type=“hidden” class="hidden"  id="chat-all"></input>
+        <textarea class="hidden"  id="chat-all"></textarea>
         <input id="input-msg" class="input-msg" type="text" placeholder="Write something">
         <button class="btn fa fa-paper-plane" type="submit"></button>
     </form>
@@ -33,90 +33,63 @@
     var chatAi = 'chat-box ai';
     var chatAlert = 'chat-box alert';
 
+    // 한글, 영문 채팅을 추가하고, scroll을 가장 아래로 내린다.
     function addChat(cls, msg, appendix) {
-      var li = document.createElement('li');
-      li.setAttribute('class',cls);
 
-      var textNode = document.createTextNode(msg);
-      li.appendChild(textNode);
+      var $li = $('<li>'+msg+'</li>').addClass(cls);
 
       if (appendix != undefined && appendix != "" ) {
-        var div = document.createElement('div');
-        var textAppendixNode = document.createTextNode(appendix);
-        div.setAttribute('class', 'chat-appendix')
-        div.appendChild(textAppendixNode);
-        li.appendChild(div);
+        $li.append($('<div>'+appendix+'</div>').addClass('chat-appendix'))
       }
 
-      document.getElementById('chat-box').appendChild(li);
+      $("#chat-box").append($li);
 
       // to bottom
-      document.documentElement.scrollTop = getDocumentHeight();
+      $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     }
 
     function addChatMe(kr, en) {
-      addChat(chatMe, kr, en)
-      document.getElementById('input-msg').value = "";
+      addChat(chatMe, kr, en);
+      $('#input-msg').val('');
     }
 
     function addChatAi(kr, en) {
-      addChat(chatAi, kr, en)
+      addChat(chatAi, kr, en);
     }
 
-    function setEnLastMe(en) {
-      var div = document.createElement('div');
-      var textAppendixNode = document.createTextNode(en);
-      div.setAttribute('class', 'chat-appendix')
-      div.appendChild(textAppendixNode);
-      
-      var lis = document.getElementById('chat-box').getElementsByTagName('li');
-      lis[lis.length - 1].appendChild(div);
-    }
-
-    function getDocumentHeight() {
-      var html = document.documentElement;
-      return Math.max( html.clientHeight, html.scrollHeight, html.offsetHeight );
-    }
-
+    // 채팅 데이터 전송
     function requestMsg(msg) {
-      var chatAll = document.getElementById('chat-all').value
+      var chatAll =  $('#chat-all').val()
       $.post( "/api/v1/chat", { text: chatAll, say: msg })
         .done(function( data ) {
-          document.getElementById('chat-all').value = data['text']
-          setEnLastMe(data['req-en'])
-          addChatAi(data['res-kr'], data['res-en'])
+          // 전체 대화
+          $('#chat-all').val(data['text']);
+
+          // ME의 영문 추가
+          $('#chat-box li').last().append($('<div>'+data['req-en']+'</div>').addClass('chat-appendix'));
+
+          // AI 대화
+          addChatAi(data['res-kr'], data['res-en']); 
         })
         .fail(function( xhr, status, error ){
-          addChat(chatAlert, xhr.responseJSON.text)
+          addChat(chatAlert, xhr.responseJSON.text);
           console.log( "Error: ", xhr, status, error );
         });
     }
 
-    (function () {
-      'use strict'
+    $(window).on('load', function(){
+      $('#main-form').submit(function(event) {
+        var msg = $('#input-msg').val()
 
-      window.addEventListener('load', function () {
-
-        var form = document.getElementById('main-form')
-
-          form.addEventListener('submit', function (event) {
-
-            var msg = document.getElementById('input-msg').value;
-
-            if (msg.trim() == '') {
-              return;
-            }
-
-            addChatMe(msg);
-
-            requestMsg(msg);
-
-            document.getElementById('input-msg').value = "";
-
-          })
+        if (msg.trim() != '') {
+          addChatMe(msg);
+          requestMsg(msg);
+          $('#input-msg').val('')
+        }
       })
-
-    }())
+      
+      event.preventDefault();
+    });
   </script>
 
 </body>

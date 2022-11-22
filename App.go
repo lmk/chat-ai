@@ -38,7 +38,7 @@ func StartWeb() {
 		}
 
 		resEnMsg = strings.ReplaceAll(strings.Trim(resEnMsg, "\n"), "\n", " ")
-		text += openai.AI + resEnMsg + "\n"
+		text += openai.AI + resEnMsg + "\n\n"
 
 		resKrMsg, err := translater.En2Ko(resEnMsg)
 		if err != nil {
