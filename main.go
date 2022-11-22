@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"test-api/openai"
-	"test-api/translater"
+	"chat-ai/openai"
+	"chat-ai/translater"
 )
 
 var conf AppConfig

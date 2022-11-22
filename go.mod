@@ -1,4 +1,4 @@
-module test-api
+module chat-ai
 
 go 1.19
 

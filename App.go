@@ -1,9 +1,9 @@
 package main
 
 import (
+	"chat-ai/openai"
+	"chat-ai/translater"
 	"fmt"
-	"test-api/openai"
-	"test-api/translater"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
