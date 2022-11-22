@@ -21,6 +21,7 @@
 
   <div class="chat-bottom">
     <form id="main-form" onsubmit="return false;">
+        <input type=“hidden” class="hidden"  id="chat-all"></input>
         <input id="input-msg" class="input-msg" type="text" placeholder="Write something">
         <button class="btn fa fa-paper-plane" type="submit"></button>
     </form>
@@ -78,11 +79,12 @@
     }
 
     function requestMsg(msg) {
-      $.post( "/api/v1/chat", { text: msg })
+      var chatAll = document.getElementById('chat-all').value
+      $.post( "/api/v1/chat", { text: chatAll, say: msg })
         .done(function( data ) {
-         // addChatMe(data['req-message-kr'], data['req-message-en'])
-          setEnLastMe(data['req-message-en'])
-          addChatAi(data['res-message-kr'], data['res-message-en'])
+          document.getElementById('chat-all').value = data['text']
+          setEnLastMe(data['req-en'])
+          addChatAi(data['res-kr'], data['res-en'])
         })
         .fail(function( xhr, status, error ){
           addChat(chatAlert, xhr.responseJSON.text)

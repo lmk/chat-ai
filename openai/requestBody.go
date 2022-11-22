@@ -16,15 +16,14 @@ package openai
 */
 
 type RequestBody struct {
-	Model       string  `json:"model"`
-	Prompt      string  `json:"prompt"`
-	MaxToken    int     `json:"max_tokens"`
-	Temperature float32 `json:"temperature"`
-	// TopP        int     `json:"top_p"`
-	// N           int     `json:"n"`
-	// Stream      bool    `json:"stream"`
-	// Logprobs    string  `json:"logprobs"`
-	// Stop        string  `json:"stop"`
+	Model            string   `json:"model"`
+	Prompt           string   `json:"prompt"`
+	MaxToken         int      `json:"max_tokens"`
+	Temperature      float32  `json:"temperature"`
+	TopP             int      `json:"top_p"`
+	FrequencyPenalty int      `json:"frequency_penalty"`
+	PresencePenalty  float32  `json:"presence_penalty"`
+	Stop             []string `json:"stop"`
 }
 
 /*

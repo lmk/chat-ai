@@ -23,41 +23,10 @@ func InitConfig() {
 	openai.Param.Model = conf.OpenAI.Model
 	openai.Param.MaxToken = conf.OpenAI.MaxTokens
 	openai.Param.Temperature = conf.OpenAI.Temperature
-	// openai.Param.Stream = conf.OpenAI.Stream
-	// openai.Param.Logprobs = conf.OpenAI.Logprobs
-	// openai.Param.Stop = conf.OpenAI.Stop
-
+	openai.Param.TopP = conf.OpenAI.TopP
+	openai.Param.FrequencyPenalty = conf.OpenAI.FrequencyPenalty
+	openai.Param.PresencePenalty = conf.OpenAI.PresencePenalty
 }
-
-// func testChat() {
-// 	reader := bufio.NewReader(os.Stdin)
-// 	for {
-// 		fmt.Print("Enter text: ")
-// 		text, _ := reader.ReadString('\n')
-// 		text = strings.Trim(text, " \n\t")
-// 		if len(text) == 0 {
-// 			break
-// 		}
-
-// 		text, err := translater.Ko2En(text)
-// 		if err != nil {
-// 			Error.Fatalln(err)
-// 		}
-
-// 		response, err := openai.Chat(text)
-// 		if err != nil {
-// 			Error.Fatalln(err)
-// 		}
-
-// 		text, err = translater.En2Ko(response)
-// 		if err != nil {
-// 			Error.Fatalln(err)
-// 		}
-
-// 		fmt.Printf("AI: %s (%s)\n", text, response)
-
-// 	}
-// }
 
 func main() {
 

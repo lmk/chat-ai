@@ -16,13 +16,13 @@ type AppConfig struct {
 }
 
 type openAI struct {
-	ApiKey      string  `yaml:"apiKey"`
-	Model       string  `yaml:"model"`
-	MaxTokens   int     `yaml:"max_tokens"`
-	Temperature float32 `yaml:"temperature"`
-	Stream      bool    `yaml:"stream"`
-	Logprobs    string  `yaml:"logprobs"`
-	Stop        string  `yaml:"stop"`
+	ApiKey           string  `yaml:"apiKey"`
+	Model            string  `yaml:"model"`
+	MaxTokens        int     `yaml:"max_tokens"`
+	Temperature      float32 `yaml:"temperature"`
+	TopP             int     `yaml:"top_p"`
+	FrequencyPenalty int     `yaml:"frequency_penalty"`
+	PresencePenalty  float32 `yaml:"presence_penalty"`
 }
 
 func (conf *AppConfig) readConfig(fileName string) error {
