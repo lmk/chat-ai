@@ -49,7 +49,7 @@ func StartWeb() {
 			return
 		}
 
-		Info.Println(text)
+		//Info.Println(text)
 
 		c.JSON(200, gin.H{
 			"text":   text,
