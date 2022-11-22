@@ -16,8 +16,10 @@ var Param RequestBody
 func Chat(msg string) (string, error) {
 
 	Param.Prompt = msg
-	Param.Temperature = 0.9
-	Param.MaxToken = 1024
+	// Param.Temperature = 0.9
+	// Param.MaxToken = 1024
+
+	//fmt.Println(Param)
 
 	buf, err := json.Marshal(Param)
 	if err != nil {
