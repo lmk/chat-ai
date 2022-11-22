@@ -9,7 +9,7 @@ import (
 )
 
 type AppConfig struct {
-	ListenPort        int    `yaml:listenPort`
+	ListenPort        int    `yaml:"listenPort"`
 	NaverClientId     string `yaml:"naverClientId"`
 	NaverClientSecret string `yaml:"naverClientSecret"`
 	OpenAI            openAI `yaml:"openai"`
