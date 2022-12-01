@@ -36,8 +36,8 @@ func StartWeb() {
 			return
 		}
 
-		text += resEnMsg + "\n"
-		_, resEnMsg = openai.LastAIChat(resEnMsg)
+		text += resEnMsg + "\n" // contains prefix(AI, Robot, Computer, Friend, Person)
+		resEnMsg = openai.StripPrefix(resEnMsg)
 
 		resKrMsg, err := translater.En2Ko(resEnMsg)
 		if err != nil {
@@ -47,6 +47,8 @@ func StartWeb() {
 			})
 			return
 		}
+
+		//		Info.Println(text)
 
 		c.JSON(200, gin.H{
 			"text":   text,

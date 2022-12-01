@@ -9,8 +9,8 @@ import (
 
 var URI = "https://api.openai.com/v1/completions"
 
-const ME = " Human:"
-const AI = " Robot:"
+const ME = "You:"
+const AI = "Robot:"
 
 var ApiKey string
 var Param RequestBody
@@ -29,6 +29,8 @@ func Chat(msg string) (string, error) {
 		return "", err
 	}
 
+	//fmt.Println("req: " + string(buf))
+
 	client := resty.New()
 	respJson, err := client.R().
 		SetHeader("Content-Type", "application/json").
@@ -42,6 +44,8 @@ func Chat(msg string) (string, error) {
 
 	var result ResponBody
 
+	//fmt.Println("res: " + string(respJson.Body()))
+
 	err = json.Unmarshal(respJson.Body(), &result)
 	if err != nil {
 		return "", err
@@ -51,17 +55,15 @@ func Chat(msg string) (string, error) {
 		return string(respJson.Body()), nil
 	}
 
-	return result.Choices[0].Text, nil
+	return strings.Trim(result.Choices[0].Text, "\n"), nil
 }
 
-func LastAIChat(text string) (string, string) {
-	prefix := ""
+func StripPrefix(text string) string {
 	i := strings.LastIndex(text, ":")
 
 	if i >= 0 {
-		prefix = strings.Trim(text[:i], " ")
 		text = strings.Trim(text[i+1:], " ")
 	}
 
-	return prefix, text
+	return text
 }
