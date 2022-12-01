@@ -31,9 +31,9 @@
  
   <script>
 
-    var chatMe = 'chat-box me';
-    var chatAi = 'chat-box ai';
-    var chatAlert = 'chat-box alert';
+    const CHAT_ME = 'chat-box me';
+    const CHAT_AI = 'chat-box ai';
+    const CHAT_ALERT = 'chat-box alert';
 
     // 한글, 영문 채팅을 추가하고, scroll을 가장 아래로 내린다.
     function addChat(cls, msg, appendix) {
@@ -51,12 +51,12 @@
     }
 
     function addChatMe(kr, en) {
-      addChat(chatMe, kr, en);
+      addChat(CHAT_ME, kr, en);
       $('#input-msg').val('');
     }
 
     function addChatAi(kr, en) {
-      addChat(chatAi, kr, en);
+      addChat(CHAT_AI, kr, en);
     }
 
     // 채팅 데이터 전송
@@ -74,7 +74,7 @@
           addChatAi(data['res-kr'], data['res-en']); 
         })
         .fail(function( xhr, status, error ){
-          addChat(chatAlert, xhr.responseJSON.text);
+          addChat(CHAT_ALERT, xhr.responseJSON.text);
           console.log( "Error: ", xhr, status, error );
         });
     }
