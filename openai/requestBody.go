@@ -20,8 +20,8 @@ type RequestBody struct {
 	Prompt           string   `json:"prompt"`
 	MaxToken         int      `json:"max_tokens"`
 	Temperature      float32  `json:"temperature"`
-	TopP             int      `json:"top_p"`
-	FrequencyPenalty int      `json:"frequency_penalty"`
+	TopP             float32  `json:"top_p"`
+	FrequencyPenalty float32  `json:"frequency_penalty"`
 	PresencePenalty  float32  `json:"presence_penalty"`
 	Stop             []string `json:"stop"`
 }

@@ -2,6 +2,7 @@ package openai
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -9,21 +10,19 @@ import (
 var URI = "https://api.openai.com/v1/completions"
 
 const ME = " Human:"
-const AI = " AI:"
+const AI = " Robot:"
 
 var ApiKey string
 var Param RequestBody
 
 func init() {
-	stop := []string{ME, AI}
+	stop := []string{ME}
 	Param.Stop = stop
 }
 
 func Chat(msg string) (string, error) {
 
 	Param.Prompt = msg
-
-	//fmt.Println(Param)
 
 	buf, err := json.Marshal(Param)
 	if err != nil {
@@ -43,8 +42,6 @@ func Chat(msg string) (string, error) {
 
 	var result ResponBody
 
-	//fmt.Println(string(respJson.Body()))
-
 	err = json.Unmarshal(respJson.Body(), &result)
 	if err != nil {
 		return "", err
@@ -55,4 +52,16 @@ func Chat(msg string) (string, error) {
 	}
 
 	return result.Choices[0].Text, nil
+}
+
+func LastAIChat(text string) (string, string) {
+	prefix := ""
+	i := strings.LastIndex(text, ":")
+
+	if i >= 0 {
+		prefix = strings.Trim(text[:i], " ")
+		text = strings.Trim(text[i+1:], " ")
+	}
+
+	return prefix, text
 }

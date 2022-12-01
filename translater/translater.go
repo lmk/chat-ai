@@ -3,6 +3,7 @@ package translater
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -13,6 +14,8 @@ var NaverClientId string
 var NaverClientSecret string
 
 func post(msg string, src string, dst string) (string, error) {
+
+	msg = strings.Trim(strings.ReplaceAll(msg, "\n", " "), " ")
 
 	reqUrl := NewReqUrl("").
 		SetParam("source", src).

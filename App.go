@@ -4,7 +4,6 @@ import (
 	"chat-ai/openai"
 	"chat-ai/translater"
 	"fmt"
-	"strings"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -28,17 +27,17 @@ func StartWeb() {
 
 		text += openai.ME + reqEnMsg + "\n"
 
-		resEnMsg, err := openai.Chat(reqEnMsg)
+		resEnMsg, err := openai.Chat(text)
 		if err != nil {
 			Error.Println("Chat", err)
 			c.JSON(500, gin.H{
-				"text": "fail chat '" + reqEnMsg + "'",
+				"text": "fail chat '" + text + "'",
 			})
 			return
 		}
 
-		resEnMsg = strings.ReplaceAll(strings.Trim(resEnMsg, "\n"), "\n", " ")
-		text += openai.AI + resEnMsg + "\n\n"
+		text += resEnMsg + "\n"
+		_, resEnMsg = openai.LastAIChat(resEnMsg)
 
 		resKrMsg, err := translater.En2Ko(resEnMsg)
 		if err != nil {
@@ -48,8 +47,6 @@ func StartWeb() {
 			})
 			return
 		}
-
-		//Info.Println(text)
 
 		c.JSON(200, gin.H{
 			"text":   text,

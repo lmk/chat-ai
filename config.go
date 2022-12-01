@@ -20,8 +20,8 @@ type openAI struct {
 	Model            string  `yaml:"model"`
 	MaxTokens        int     `yaml:"max_tokens"`
 	Temperature      float32 `yaml:"temperature"`
-	TopP             int     `yaml:"top_p"`
-	FrequencyPenalty int     `yaml:"frequency_penalty"`
+	TopP             float32 `yaml:"top_p"`
+	FrequencyPenalty float32 `yaml:"frequency_penalty"`
 	PresencePenalty  float32 `yaml:"presence_penalty"`
 }
 
