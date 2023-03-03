@@ -4,7 +4,7 @@ AI는 `https://beta.openai.com/docs/guides/completion/conversation`의 내용을
 openai.com 에서는 영문만 지원하기 때문에, naver의 papago api를 사용해서 번역합니다.
 
 ## 제약사항
-- openai.com은 가입하면 베타 버전이라 3달간만 무료로 사용할 수 있습니다. 서비스가 아닌 스터디 목적이니 3달만 사용하려 합니다. (만기: 23년 1월 중순)
+- openai.com은 가입하면 베타 버전이라 3달간만 무료로 사용할 수 있습니다. 서비스가 아닌 스터디 목적이니 3달만 사용하려 합니다. ~~(만기: 23년 1월 중순)~~ 만료됨
 - naver papago api는 하루 10,000 글자만 번역이 무료 입니다. 번역 대상은 `내가 입력한 내용` + `AI가 대답한 내용` 입니다. 10,000글자를 초과하면 translater fail이 발생합니다. 
 
 ## app.yaml
@@ -225,6 +225,5 @@ func StripPrefix(text string) string {
 
 - https://beta.openai.com/docs/guides/completion/conversation
 - https://developers.naver.com/products/papago/nmt/nmt.md
-- https://chatai.newtype.dev/
+- ~~https://chatai.newtype.dev/~~ 만료됨
 - https://github.com/lmk/chat-ai
-- 
